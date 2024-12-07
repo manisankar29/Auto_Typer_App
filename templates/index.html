@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Typer</title>
+    <link rel="stylesheet" href="/static/CSS/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/Images/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/Images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/Images/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/Images/favicon_io/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+    <video autoplay loop muted class="background-video">
+        <source src="/static/Images/background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <!-- Title Section -->
+    <div class="title-container">
+        <h1 class="title">AUTO TYPER</h1>
+        <h2 class="subtitle">by Pasala Mani Sankar</h2>
+    </div>
+
+    <!-- Container with Video Background -->
+    <div class="container">
+        <h1>TEXT AREA</h1>
+        <textarea id="content" placeholder="Paste your content here"></textarea>
+        <button id="startTyping">
+            <i class="bx bx-terminal"></i> Start Typing
+        </button>
+        <p id="instructions">Place your cursor where you want the typing to start. Typing will start after 5 seconds.</p>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div class="contact-us">
+        <h2>Contact Us</h2>
+        <div class="contact-us-content">
+            <!-- Feedback Form -->
+            <div class="feedback">
+                <h3>Feedback</h3>
+                <textarea id="feedback" placeholder="Write your feedback here..."></textarea>
+                <button id="submitFeedback">
+                    <i class="bx bx-send"></i> Submit Feedback
+                </button>
+            </div>
+            <!-- Contact Links -->
+            <div class="contact-links">
+                <h3>Connect with Us</h3>
+                <ul>
+                    <li>
+                        <i class="bx bxl-linkedin"></i>
+                        <a href="https://www.linkedin.com/in/mani-sankar-pasala/" target="_blank">LinkedIn</a>
+                    </li>
+                    <li>
+                        <i class="bx bxl-instagram"></i>
+                        <a href="https://www.instagram.com/mani_sankar_pasala/" target="_blank">Instagram</a>
+                    </li>
+                    <li>
+                        <i class="bx bxs-map"></i>
+                        <a href="https://maps.app.goo.gl/FAWfSUyMtr6UzCKr9" target="_blank">Location</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Pasala Mani Sankar. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById("startTyping").addEventListener("click", async () => {
+            const content = document.getElementById("content").value;
+            if (!content) {
+                alert("Please paste some content to type!");
+                return;
+            }
+            alert("Switch to the target application. Typing will start in 5 seconds...");
+            
+            const response = await fetch("/start_typing", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ content }),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        });
+
+        document.getElementById("submitFeedback").addEventListener("click", async () => {
+            const feedback = document.getElementById("feedback").value;
+            if (!feedback) {
+                alert("Please write some feedback!");
+                return;
+            }
+
+            const response = await fetch("/submit_feedback", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ feedback }),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        });
+    </script>
+</body>
+</html>
